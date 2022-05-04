@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<head>
+    <title>New York Dispensaries Status</title>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+     integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+     crossorigin=""/>
+      <!-- Make sure you put this AFTER Leaflet's CSS -->
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+   <!-- Load Esri Leaflet from CDN -->
+      <script src="https://unpkg.com/esri-leaflet@2.1.4"></script>  
+   <!-- Load Esri Leaflet Renderers -->
+      <!-- This will hook into Esri Leaflet to get renderer info when adding a feature layer -->
+      <script src="https://unpkg.com/esri-leaflet-renderers@2.0.6"></script>
+    <style>
+      body { margin:0; padding:0; }
+      #map { position: absolute; top:0; bottom:0; right:0; left:0; }
+  .legend {
+      line-height: 18px;
+      color: #555;
+  }
+  .legend i {
+      width: 18px;
+      height: 18px;
+      float: left;
+      margin-right: 8px;
+      opacity: 0.9;
+  }
+  .info {
+      padding: 6px 8px;
+      font: 10px/18px Arial, Helvetica, sans-serif;
+      background: white;
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      border-radius: 5px;
+  }
+    </style>
+  </head>
+  <body>
+  
+  <div id="map"></div>
+  
+  <script>
+    var map = L.map('map').setView([43.01887473170203, -75.81399039153861], 7);
+  
+  
+  
+  //set up conflict layer 
+  var newyork = L.esri.featureLayer({
+      url: 'https://services9.arcgis.com/J0tsnoNKqR02vNPh/ArcGIS/rest/services/Cities_Towns/FeatureServer/0'
+    }).addTo(map);
+  
+  
+  newyork.bindTooltip(function (layer){
+  return L.Util.template('<h4>{NAME}, New York </h4> Dispensaries: {Dispensaries} <br>Sites: {Sites}', layer.feature.properties);
+  });
+  
+  //Legend
+  var breaks = [17, 14, 0]; 
+  var labels = ['Dispensaries & Consumption Lounges Allowed', 'Dispensaries Allowed /Consumption Lounges Not Allowed', 'Opted Out'];  
+  function getColor(d) {
+      return  d >= breaks[0] ? '#55FF00' :
+      d >= breaks[1] ? "#0070FF" :
+      "#FF0000";
+  }
+  var legend = L.control({position: 'topright'});
+  
+  legend.onAdd = function (map) {
+      var div = L.DomUtil.create('div', 'info legend');
+  
+      // loop through items and generate legend items each
+      for (var i = 0; i < breaks.length; i++) {
+          div.innerHTML +=
+              '<i style="background:' + getColor(breaks[i]) + ' "></i> ' +
+              labels[i] + (breaks ? '' +  '<br>' : '');
+      }
+      return div;
+  };
+  
+  legend.addTo(map);
+  </script>
+  
+  </body>
+  </html>
