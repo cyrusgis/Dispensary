@@ -57,7 +57,7 @@
   
   
   layer.bindTooltip(function (layer){
-  return L.Util.template('<h4>{MUN_LABEL}, CA </h4> Rec: {Rec} <br>Med: {Med} <br> Lounge: {Lounge}', layer.feature.properties);
+  return L.Util.template('<h4>{CITY}, {COUNTY}, CA </h4> Rec: {Rec} <br>Med: {Med} <br> Lounge: {Lounge}', layer.feature.properties);
   });
   
   //Legend
