@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>New York Dispensaries Status</title>
+    <title>NJ Dispensaries Status</title>
       <meta charset="UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,13 +51,13 @@
   
   
   //set up status layer 
-  var newyork = L.esri.featureLayer({
+  var layer = L.esri.featureLayer({
       url: 'https://services9.arcgis.com/J0tsnoNKqR02vNPh/arcgis/rest/services/NJ_Cities/FeatureServer/62'
     }).addTo(map);
   
   
-  newyork.bindTooltip(function (layer){
-  return L.Util.template('<h4>{NAME}, New York </h4> Dispensaries: {Dispensaries} <br>Consumption: {Sites}', layer.feature.properties);
+  layer.bindTooltip(function (layer){
+  return L.Util.template('<h4>{MUN_LABEL}, NJ </h4> Rec: {Rec} <br>Med: {Med} <br> Lounge: {Lounge}', layer.feature.properties);
   });
   
   //Legend
