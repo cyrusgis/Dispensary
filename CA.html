@@ -51,12 +51,14 @@
   
   
   //set up status layer 
-  var layer = L.esri.featureLayer({
-      url: 'https://services9.arcgis.com/J0tsnoNKqR02vNPh/arcgis/rest/services/CA_Cities/FeatureServer/64'
-    }).addTo(map);
+
   var boundary = L.esri.featureLayer({
      url: 'https://services1.arcgis.com/jUJYIo9tSA7EHvfZ/arcgis/rest/services/California_County_Boundaries/FeatureServer/0'
     }).addTo(map);
+  var layer = L.esri.featureLayer({
+      url: 'https://services9.arcgis.com/J0tsnoNKqR02vNPh/arcgis/rest/services/CA_Cities/FeatureServer/64'
+    }).addTo(map);
+
     
   
   layer.bindTooltip(function (layer){
