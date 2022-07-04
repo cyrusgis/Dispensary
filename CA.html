@@ -32,7 +32,7 @@
       opacity: 0.9;
   }
   .info {
-      padding: 6px 8px;
+      padding: 6px 4px;
       font: 13px/18px Arial, Helvetica, sans-serif;
       background: white;
       background: rgba(255,255,255,0.8);
@@ -62,9 +62,10 @@
     layer.bringToFront();
     });
     
-  
+  var popTemplate = '<span style="color:{Color};font-size:30px" >&#9632; </span><span style="font-size:18px">{CITY}, {COUNTY}, CA </span> <br> Rec: {Rec} <br>Med: {Med} <br> Lounge: {Lounge}';
   layer.bindTooltip(function (layer){
-  return L.Util.template('<h4>{CITY}, {COUNTY}, CA </h4> Rec: {Rec} <br>Med: {Med} <br> Lounge: {Lounge}', layer.feature.properties);
+  return L.Util.template(
+    popTemplate, layer.feature.properties);
   });
   
   //Legend
