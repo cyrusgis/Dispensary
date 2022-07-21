@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-  <title>MI Villages Dispensaries Status</title>
+  <title>MI Dispensaries Status</title>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -74,23 +74,43 @@
 
     var boundary = L.esri.featureLayer({
       url: 'https://gis.glc.org/server/rest/services/Political/County_Boundaries/MapServer/2'
-    }).addTo(map);
-    var layer = L.esri.featureLayer({
+    })//.addTo(map);
+    var villages = L.esri.featureLayer({
       url: 'https://services9.arcgis.com/J0tsnoNKqR02vNPh/arcgis/rest/services/Villages_MI/FeatureServer/2'
     }).addTo(map);
     map.on('click', function () {
-      layer.bringToFront();
+      villages.bringToFront();
     });
+    var cities = L.esri.featureLayer({
+      url:'https://services9.arcgis.com/J0tsnoNKqR02vNPh/arcgis/rest/services/Cities_MI/FeatureServer/1'
+    }).addTo(map);
 
+    //group
+    var baseLayers = {
+      "County": boundary,
+    };
+    var overlays = {
+      "Villages": villages,
+      "Cities": cities,
+    };
+    L.control.layers(null,overlays).addTo(map);
+
+    //popup
     var popTemplate = '<span style="color:{Color};font-size:30px" >&#9632; </span><span style="font-size:18px">{NAME}, {County}, MI </span> <br> Rec: {Rec} <br>Med: {Med} <br> Lounge: {Lounge}';
-    layer.bindTooltip(function (layer) {
+    villages.bindTooltip(function (layer) {
       return L.Util.template(
         popTemplate, layer.feature.properties);
+    });
+    
+        var cityPopTemplate = '<span style="color:{Color};font-size:30px" >&#9632; </span><span style="font-size:18px">{City}, {County}, MI </span> <br> Rec: {Rec} <br>Med: {Med} <br> Lounge: {Lounge}';
+    cities.bindTooltip(function (layer) {
+      return L.Util.template(
+        cityPopTemplate, layer.feature.properties);
     });
 
     //Legend
     var breaks = [17, 14, 11, 8, 5, 3, 0];
-    var labels = ['MI Village OptIn Status', 'Rec:No/ Med:No/ Lounge:No', 'Rec:Yes/ Med:Yes/ Lounge:No', 'Rec:Yes/ Med:No/ Lounge:No', 'Rec:No/ Med:Yes/ Lounge:No', 'Rec:Yes/ Med:No/ Lounge:Yes', 'Rec:Yes/ Med:Yes/ Lounge:Yes'];
+    var labels = ['MI OptIn Status', 'Rec:No/ Med:No/ Lounge:No', 'Rec:Yes/ Med:Yes/ Lounge:No', 'Rec:Yes/ Med:No/ Lounge:No', 'Rec:No/ Med:Yes/ Lounge:No', 'Rec:Yes/ Med:No/ Lounge:Yes', 'Rec:Yes/ Med:Yes/ Lounge:Yes'];
     function getColor(d) {
       return d >= breaks[0] ? '#' :
         d >= breaks[1] ? "#FF0000" :
