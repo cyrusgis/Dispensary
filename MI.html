@@ -71,10 +71,6 @@
 
 
     //set up status layer 
-
-    var boundary = L.esri.featureLayer({
-      url: 'https://gis.glc.org/server/rest/services/Political/County_Boundaries/MapServer/2'
-    })//.addTo(map);
     var villages = L.esri.featureLayer({
       url: 'https://services9.arcgis.com/J0tsnoNKqR02vNPh/arcgis/rest/services/Villages_MI/FeatureServer/2'
     }).addTo(map);
@@ -86,9 +82,6 @@
     }).addTo(map);
 
     //group
-    var baseLayers = {
-      "County": boundary,
-    };
     var overlays = {
       "Villages": villages,
       "Cities": cities,
