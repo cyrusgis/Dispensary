@@ -60,9 +60,11 @@
     }).addTo(map);
   
   
-  newyork.bindTooltip(function (layer){
-  return L.Util.template('<h4>{NAME}, New York </h4> Dispensaries: {Dispensaries} <br>Consumption: {Sites}', layer.feature.properties);
-  });
+    var popTemplate = '<span style="color:{Color};font-size:30px" >&#9632; </span><span style="font-size:18px">{NAME}, {COUNTY}, NY </span> <br> Dispensaries: {Dispensaries} <br>Consumption: {Sites}';
+    newyork.bindTooltip(function (layer) {
+      return L.Util.template(
+        popTemplate, layer.feature.properties);
+    });
   
   //Legend
   var breaks = [17, 14, 0]; 
