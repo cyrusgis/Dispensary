@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-  <title>CA Dispensaries Status</title>
+  <title>MS Dispensaries Status</title>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -71,21 +71,34 @@
 
 
     //set up status layer 
-
-    var boundary = L.esri.featureLayer({
-      url: 'https://services1.arcgis.com/jUJYIo9tSA7EHvfZ/arcgis/rest/services/California_County_Boundaries/FeatureServer/0'
-    }).addTo(map);
-    var layer = L.esri.featureLayer({
-      url: 'https://services9.arcgis.com/J0tsnoNKqR02vNPh/arcgis/rest/services/CA_Cities/FeatureServer/64'
+    var counties = L.esri.featureLayer({
+      url: 'https://services9.arcgis.com/J0tsnoNKqR02vNPh/arcgis/rest/services/CA_County/FeatureServer/0'
     }).addTo(map);
     map.on('click', function () {
-      layer.bringToFront();
+      counties.bringToFront();
     });
+    var cities = L.esri.featureLayer({
+      url:'https://services9.arcgis.com/J0tsnoNKqR02vNPh/arcgis/rest/services/CA_Cities/FeatureServer/64'
+    }).addTo(map);
 
-    var popTemplate = '<span style="color:{Color};font-size:30px" >&#9632; </span><span style="font-size:18px">{CITY}, {COUNTY}, CA </span> <br> Rec: {Rec} <br>Med: {Med} <br> Lounge: {Lounge}';
-    layer.bindTooltip(function (layer) {
+    //group
+    var overlays = {
+      "Counties": counties,
+      "Cities": cities,
+    };
+    L.control.layers(null,overlays).addTo(map);
+
+    //popup
+    var popTemplate = '<span style="color:{Color};font-size:30px" >&#9632; </span><span style="font-size:18px">{COUNTY_NAM}, CA </span> <br> Rec: {Rec} <br>Med: {Med} <br> Lounge: {Lounge}';
+    counties.bindTooltip(function (layer) {
       return L.Util.template(
         popTemplate, layer.feature.properties);
+    });
+    
+        var cityPopTemplate = '<span style="color:{Color};font-size:30px" >&#9632; </span><span style="font-size:18px">{CITY}, CA </span> <br> Rec: {Rec} <br>Med: {Med} <br> Lounge: {Lounge}';
+    cities.bindTooltip(function (layer) {
+      return L.Util.template(
+        cityPopTemplate, layer.feature.properties);
     });
 
     //Legend
@@ -100,6 +113,7 @@
                 d >= breaks[5] ? "#FFDE3E" :
                   "#38A800";
     }
+  
     var legend = L.control({ position: 'bottomright' });
 
     legend.onAdd = function (map) {
