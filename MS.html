@@ -74,13 +74,13 @@
     var counties = L.esri.featureLayer({
       url: 'https://services9.arcgis.com/J0tsnoNKqR02vNPh/arcgis/rest/services/MI_Counties_Project/FeatureServer/0'
     }).addTo(map);
-    map.on('click', function () {
-      counties.bringToFront();
-    });
+
     var cities = L.esri.featureLayer({
       url:'https://services9.arcgis.com/J0tsnoNKqR02vNPh/arcgis/rest/services/MS_Cities/FeatureServer/0'
     }).addTo(map);
-
+    map.on('click', function () {
+      cities.bringToFront();
+    });
     //group
     var overlays = {
       "Counties": counties,
