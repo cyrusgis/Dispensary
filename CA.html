@@ -105,15 +105,15 @@
 
     //Legend
     var breaks = [17, 14, 11, 8, 5, 3, 0];
-    var labels = ['California Opt-In Map', 'Opt Out', 'Opt In - Med and Rec', 'Opt In - Rec', 'Opt In - Med', 'Opt In - Rec and Lounge', 'Opt In - Med, Rec and Lounge'];
+    var labels = ['NY OptIn Status', 'Opt Out', 'Opt In - Med', 'Opt In - Rec', 'Opt In - Rec and Lounge', 'Opt In - Med and Rec', 'Opt In - Med, Rec and Lounge'];
     function getColor(d) {
       return d >= breaks[0] ? '#' :
         d >= breaks[1] ? "#FF0000" :
-          d >= breaks[2] ? "#4CE600" :
+          d >= breaks[2] ? "#9E559C" : 
             d >= breaks[3] ? "#0070FF" :
-              d >= breaks[4] ? "#9E559C" :
-                d >= breaks[5] ? "#FFDE3E" :
-                  "#38A800";
+              d >= breaks[4] ? "#FFDE3E" :
+                  d >= breaks[5] ? "#4CE600" :
+                    "#38A800";
     }
 
     var legend = L.control({ position: 'bottomright' });
